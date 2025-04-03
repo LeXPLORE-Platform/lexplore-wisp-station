@@ -12,9 +12,23 @@ def water_quality_download(date_string, folder, user, password):
     filepath = path.join(folder, filename)
     if path.exists(filepath):
         remove(filepath)
-    response = requests.get(url, allow_redirects=True, auth=(user, password))
-    open(filepath, 'wb').write(response.content)
-    return filepath
+
+    max_retries = 5
+    attempt = 0
+
+    while attempt < max_retries:
+        response = requests.get(url, allow_redirects=True, auth=(user, password))
+
+        if response.status_code == 200:
+            open(filepath, 'wb').write(response.content)
+            return filepath
+        else:
+            print(f"Attempt {attempt + 1}: Failed with status {response.status_code}. Retrying in 10 seconds...")
+            time.sleep(10)
+            attempt += 1
+    else:
+        print("Max retries reached. Request failed.")
+    return False
 
 
 def spectral_download(date_string, folder, user, password):
@@ -23,6 +37,20 @@ def spectral_download(date_string, folder, user, password):
     filepath = path.join(folder, filename)
     if path.exists(filepath):
         remove(filepath)
-    response = requests.get(url, allow_redirects=True, auth=(user, password))
-    open(filepath, 'wb').write(response.content)
-    return filepath
+
+    max_retries = 5
+    attempt = 0
+
+    while attempt < max_retries:
+        response = requests.get(url, allow_redirects=True, auth=(user, password))
+
+        if response.status_code == 200:
+            open(filepath, 'wb').write(response.content)
+            return filepath
+        else:
+            print(f"Attempt {attempt + 1}: Failed with status {response.status_code}. Retrying in 10 seconds...")
+            time.sleep(10)
+            attempt += 1
+    else:
+        print("Max retries reached. Request failed.")
+    return False

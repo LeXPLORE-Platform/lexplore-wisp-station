@@ -47,8 +47,12 @@ def main(server=False, logs=False):
         while process_date < end_date:
             date_string = process_date.strftime(r"%Y-%m-%d")
             log.info("Downloading {}".format(date_string), indent=1)
-            files.append(spectral_download(date_string, l0_spectral, creds["user"], creds["password"]))
-            files.append(water_quality_download(date_string, l0_wq, creds["user"], creds["password"]))
+            file = spectral_download(date_string, l0_spectral, creds["user"], creds["password"])
+            if file:
+                files.append(file)
+            file = water_quality_download(date_string, l0_wq, creds["user"], creds["password"])
+            if file:
+                files.append(file)
             process_date = process_date + timedelta(days=1)
         params['Updated']['datetime'] = date.today().strftime(r"%Y-%m-%dT%H:%M:%SZ")
         with open(os.path.join(repo, "lastupdated.ini"), "w") as f:
@@ -62,16 +66,19 @@ def main(server=False, logs=False):
     log.begin_stage("Processing data to L1")
     edited_files = []
     for file in files:
-        if "/Spectral/" in file:
-            spectral = Spectral()
-            if spectral.read_data(file):
-                spectral.quality_assurance()
-                edited_files.append(spectral.export_to_netcdf(os.path.join(directories["Level1"], "Spectral"), "L1"))
-        else:
-            water_quality = WaterQuality()
-            if water_quality.read_data(file):
-                water_quality.quality_assurance()
-                water_quality.export_to_netcdf(os.path.join(directories["Level1"], "WaterQuality"), "L1")
+        try:
+            if "/Spectral/" in file:
+                spectral = Spectral()
+                if spectral.read_data(file):
+                    spectral.quality_assurance()
+                    edited_files.append(spectral.export_to_netcdf(os.path.join(directories["Level1"], "Spectral"), "L1"))
+            else:
+                water_quality = WaterQuality()
+                if water_quality.read_data(file):
+                    water_quality.quality_assurance()
+                    water_quality.export_to_netcdf(os.path.join(directories["Level1"], "WaterQuality"), "L1")
+        except:
+            log.info("Failed for {}".format(file), indent=1)
 
     log.end_stage()
 

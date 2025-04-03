@@ -29,6 +29,23 @@ You need to have git and git-lfs installed in order to successfully clone the re
 
  The python version can be checked by running the command `python --version`. In case python is not installed or only an older version of it, it is recommend to install python through the anaconda distribution which can be downloaded [here](https://www.anaconda.com/products/individual). 
 
+## Usage
+
+### Credentials
+
+In order to download live data `creds_example.json` should be renamed to `creds.json` and completed.
+
+### Operation
+
+To run the pipeline: `python scripts/main.py`
+
+The python script `scripts/main.py` defines the different processing steps while the python script `scripts/meteostation.py` contains the python class meteostation with all the corresponding class methods to process the data. To add a new processing or visualization step, a new class method can be created in the `meteostation.py` file and the step can be added in `main.py` file. Both above mentioned python scripts are independent of the local file system.
+
+### Arguments
+
+Run `scripts/main.py -h` for details on the input arguments available
+
+
 ## Data
 
 The data can be found in the folder `data`. `Spectral` refers to raw spectral data from the WISP station and `Water Quality` refers to water quality parameters derived from the spectra (calculated by Water Insights).
@@ -39,9 +56,8 @@ The data is structured as follows:
 
 - **Level 0**: Raw data collected from the WISPcloud API.
 
-- **Level 1A**: Raw data stored to NetCDF file where attributes (such as sensors used, units, description of data, etc.) are added to the data. 
-
-- **Level 1B**: Column with quality flags are added to the Level 1A data. Quality flag "1" indicates that the data point didn't pass the 
+- **Level 1**: Raw data stored to NetCDF file where attributes (such as sensors used, units, description of data, etc.) are added to the data. 
+Column with quality flags are added to the data. Quality flag "1" indicates that the data point didn't pass the 
 quality checks and further investigation is needed, quality flag "0" indicates that no further investigation is needed.
 
 ## Quality assurance
