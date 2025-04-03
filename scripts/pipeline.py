@@ -16,7 +16,7 @@ def pipeline(download=False, process=False, reprocess=False, logs=False, upload=
         download_remote_data(warning=False, delete=True)
 
     if process:
-        edited_files = main(~reprocess, logs, upload or uploadfiles)
+        edited_files = main(~reprocess, logs)
 
     if upload:
         print("Upload sync with remote bucket")

@@ -76,7 +76,7 @@ def main(server=False, logs=False):
                 water_quality = WaterQuality()
                 if water_quality.read_data(file):
                     water_quality.quality_assurance()
-                    water_quality.export_to_netcdf(os.path.join(directories["Level1"], "WaterQuality"), "L1")
+                    edited_files.append(water_quality.export_to_netcdf(os.path.join(directories["Level1"], "WaterQuality"), "L1"))
         except:
             log.info("Failed for {}".format(file), indent=1)
 
