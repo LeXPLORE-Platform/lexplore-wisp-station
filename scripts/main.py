@@ -12,7 +12,7 @@ from instruments import WaterQuality, Spectral
 from general.functions import logger
 from functions import spectral_download, water_quality_download
 
-def main(server=False, logs=False):
+def main(server=False, logs=False, remove_api_data=False):
     repo = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     if logs:
         log = logger(os.path.join(repo, "logs/wisp"))
