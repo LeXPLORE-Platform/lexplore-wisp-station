@@ -165,6 +165,7 @@ class Spectral(object):
         df.replace('None', np.nan, inplace=True)
         # Check if file is empty
         if len(df) == 1 and (str(df.iloc[0]['time']) in ['None', 'nan']):
+            print("File {} contains no data".format(path.basename(input_file_path)))
             return False
 
         # Process sensor information
