@@ -13,6 +13,12 @@ with display on the [Datalakes](https://www.datalakes-eawag.ch/) data portal.
 
 The WISP station records the spectral signature (350-900nm in 1nm steps) of the surface water at 15 minute intervals during daylight hours.
 
+## Calibration
+
+Calibration of the optical sensors is funded by SCNAT
+
+![SCNAT Logo](https://datalakes-eawag.s3.eu-central-1.amazonaws.com/images/scnat.png)
+
 ## Installation
 
 You need to have git and git-lfs installed in order to successfully clone the repository.
